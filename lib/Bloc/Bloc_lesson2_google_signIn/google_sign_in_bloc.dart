@@ -7,18 +7,13 @@ part 'google_sign_in_state.dart';
 class GoogleSignInBloc extends Bloc<GoogleLoginEvent, GoogleLoginState> {
   final GoogleSignInRepository _repository;
 
-  GoogleSignInBloc({required GoogleSignInRepository repository})
-      : _repository = repository,
-        super(GoogleSignInInitialState()) {
+  GoogleSignInBloc({required GoogleSignInRepository repository}) : _repository = repository, super(GoogleSignInInitialState()) {
     on<GoogleSignInRequestedEvent>(_onGoogleSignInRequested);
     on<GoogleSignOutRequestedEvent>(_onGoogleSignOutRequested);
     on<GoogleSignInRequestFailureEvent>(_onGoogleSignInRequestFailure);
   }
 
-  Future<void> _onGoogleSignInRequested(
-    GoogleSignInRequestedEvent event,
-    Emitter<GoogleLoginState> emit,
-  ) async {
+  Future<void> _onGoogleSignInRequested(GoogleSignInRequestedEvent event, Emitter<GoogleLoginState> emit,) async {
     emit(GoogleSignInLoadingState());
     try {
       final user = await _repository.signInWithGoogle();

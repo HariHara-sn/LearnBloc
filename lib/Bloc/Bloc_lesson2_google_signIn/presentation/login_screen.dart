@@ -8,7 +8,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: Colors.orange,
       body: BlocConsumer<GoogleSignInBloc, GoogleLoginState>(
         listener: (context, state) {
           if (state is GoogleSignInFailureState) {
@@ -58,7 +58,8 @@ class LoginScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 48),
@@ -69,9 +70,9 @@ class LoginScreen extends StatelessWidget {
                   else
                     _GoogleSignInButton(
                       onTap: () {
-                        context
-                            .read<GoogleSignInBloc>()
-                            .add(GoogleSignInRequestedEvent());
+                        context.read<GoogleSignInBloc>().add(
+                          GoogleSignInRequestedEvent(),
+                        );
                       },
                     ),
                 ],
@@ -134,9 +135,7 @@ class _GoogleLogo extends StatelessWidget {
     return SizedBox(
       width: 24,
       height: 24,
-      child: CustomPaint(
-        painter: _GoogleLogoPainter(),
-      ),
+      child: CustomPaint(painter: _GoogleLogoPainter()),
     );
   }
 }
@@ -156,7 +155,7 @@ class _GoogleLogoPainter extends CustomPainter {
     canvas.drawArc(
       Rect.fromLTWH(0, 0, s, s),
       -1.57, // -90 deg (top)
-      3.93,  // ~225 deg clockwise
+      3.93, // ~225 deg clockwise
       false,
       Paint()
         ..color = const Color(0xFF4285F4)

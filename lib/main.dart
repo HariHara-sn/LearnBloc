@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learn_bloc/Bloc/Bloc_lesson2_google_signIn/google_sign_in_bloc.dart';
+import 'package:learn_bloc/Bloc/Bloc_lesson2_google_signIn/presentation/home_screen.dart';
 import 'package:learn_bloc/Bloc/Bloc_lesson2_google_signIn/presentation/login_screen.dart';
 import 'package:learn_bloc/Bloc/Bloc_lesson2_google_signIn/repository/login_repository.dart';
 
-// import 'firebase_options.dart'; // Uncomment after running flutterfire configure
+import 'firebase_options.dart'; 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Firebase
+  
   await Firebase.initializeApp(
-    // options: DefaultFirebaseOptions.currentPlatform, // Uncomment after flutterfire configure
+    options: DefaultFirebaseOptions.currentPlatform, // ← add this
   );
 
   runApp(const MyApp());
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           initialRoute: '/',
           routes: {
             '/': (context) => const LoginScreen(),
-            // '/home': (context) => const HomeScreen(), // Add your home screen here
+            '/home': (context) => const HomeScreen(), // Add your home screen here
           },
         ),
       ),

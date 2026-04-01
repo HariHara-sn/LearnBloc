@@ -20,7 +20,6 @@ class LoginScreen extends StatelessWidget {
             );
           }
           if (state is GoogleSignInSuccessState) {
-            // Navigate to home screen on success
             Navigator.pushReplacementNamed(context, '/home');
           }
         },

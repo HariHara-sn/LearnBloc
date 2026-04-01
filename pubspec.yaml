@@ -38,9 +38,10 @@ dependencies:
   # Firebase
   firebase_core: ^3.15.2
   firebase_auth: ^5.7.0
-
+  hive: ^2.0.6
+  hive_flutter: ^1.1.0
   # Google Sign In - only this version works the GoogleSignIn(); method
-  google_sign_in: ^6.2.1 
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:

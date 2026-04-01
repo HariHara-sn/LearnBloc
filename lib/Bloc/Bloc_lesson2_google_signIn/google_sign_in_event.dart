@@ -10,3 +10,5 @@ final class GoogleSignInRequestFailureEvent extends GoogleLoginEvent {
   final String errorMessage;
   GoogleSignInRequestFailureEvent(this.errorMessage);
 }
+
+final class GoogleSignInRestoreSessionEvent extends GoogleLoginEvent {}

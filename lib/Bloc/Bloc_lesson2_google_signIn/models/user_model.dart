@@ -30,6 +30,5 @@ class UserModel {
   }
 
   @override
-  String toString() =>
-      'UserModel(name: $name, email: $email, photoUrl: $photoUrl)';
+  String toString() => 'UserModel(name: $name, email: $email, photoUrl: $photoUrl)';
 }

@@ -8,7 +8,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GoogleSignInBloc, GoogleLoginState>(
+    return BlocConsumer<GoogleSignInBloc, GoogleLoginState>(
+      listener: (context, state) {
+        if (state is GoogleSignInInitialState) {
+          Navigator.pushReplacementNamed(context, "/login");
+        }
+      },
       builder: (context, state) {
         if (state is! GoogleSignInSuccessState) {
           return const Scaffold(

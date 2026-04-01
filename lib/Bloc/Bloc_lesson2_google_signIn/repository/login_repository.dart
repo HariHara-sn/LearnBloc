@@ -5,24 +5,25 @@
 // Only the repository knows the details
 // Easy to replace Google login later (Facebook/Apple Sign-In)
 
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive/hive.dart';
+
 import '../models/user_model.dart';
 
 class GoogleSignInRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final _authBox = Hive.box('authBox');
 
   Future<UserModel> signInWithGoogle() async {
     try {
-      // Trigger the Google sign-in flow
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
         throw Exception('Google sign-in was cancelled by the user.');
       }
 
-      // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
@@ -33,8 +34,8 @@ class GoogleSignInRepository {
       );
 
       // Sign in to Firebase with the Google credential
-      final UserCredential userCredential =
-          await _firebaseAuth.signInWithCredential(credential);
+      final UserCredential userCredential = await _firebaseAuth
+          .signInWithCredential(credential);
 
       final User? user = userCredential.user;
 
@@ -42,11 +43,20 @@ class GoogleSignInRepository {
         throw Exception('Firebase sign-in failed: user is null.');
       }
 
-      return UserModel.fromGoogleSignIn(
+      // 🔥 Get Firebase ID Token
+      final token = await user.getIdToken();
+
+      // 🔥 Save token locally
+      if (token != null) {
+        _authBox.put('token', token);
+      }
+      UserModel userModeldata = UserModel.fromGoogleSignIn(
         name: user.displayName ?? 'No Name',
         email: user.email ?? 'No Email',
         photoUrl: user.photoURL ?? '',
       );
+      print(userModeldata);
+      return userModeldata;
     } catch (e) {
       throw Exception('Google Sign-In failed: ${e.toString()}');
     }
@@ -57,13 +67,29 @@ class GoogleSignInRepository {
       await Future.wait([
         _googleSignIn.signOut(),
         _firebaseAuth.signOut(),
+        _authBox.delete('token'), // Remove token
       ]);
     } catch (e) {
       throw Exception('Sign-out failed: ${e.toString()}');
     }
   }
 
-  User? getCurrentUser() {
-    return _firebaseAuth.currentUser;
+  // Check if user is already logged in
+  bool isLoggedIn() {
+    final token = _authBox.get('token');
+    print("debug harii  $token");
+    return token != null;
+  }
+
+  UserModel? getCurrentUser() {
+    final user = _firebaseAuth.currentUser;
+    if (user != null) {
+      return UserModel.fromGoogleSignIn(
+        name: user.displayName ?? 'No Name',
+        email: user.email ?? 'No Email',
+        photoUrl: user.photoURL ?? '',
+      );
+    }
+    return null;
   }
 }

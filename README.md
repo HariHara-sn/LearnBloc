@@ -204,3 +204,15 @@ Displays the current number.
 # we have context.watch<CounterCubit>().state then why do we need BlocBuilder ?
 -  context.watch<CounterCubit>().state = This rebuilds the entire widget which is more costly and expensive.
 - BlocBuilder = only rebuilds the part of the widget tree that needs to change when the state changes, making it more efficient.
+
+
+- BlocConsumer - UseCase
+  1. LoginScreen
+  2. SignUpScreen
+  3. ProfileScreen
+  
+- BlocListner - useCase
+  1. SplashScreen
+  2. Show a SnackBar when an error occurs.
+  3. Navigate to a new screen when a specific state is emitted.
+  

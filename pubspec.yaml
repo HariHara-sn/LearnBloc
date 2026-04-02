@@ -42,6 +42,9 @@ dependencies:
   hive_flutter: ^1.1.0
   # Google Sign In - only this version works the GoogleSignIn(); method
   google_sign_in: ^6.2.1
+  logger: ^2.7.0
+  go_router: ^17.1.0
+  equatable: ^2.0.8
 
 dev_dependencies:
   flutter_test:
